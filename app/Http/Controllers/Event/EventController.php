@@ -57,20 +57,11 @@ class EventController extends Controller
         //
     }
 
-    public function showUserEvents(Request $request, Event $event)
+    public function showUserEvents(Request $request)
     {
-//        $userID = $request->user()->id;
-//
-//       $eventsUser = Event::query()
-//           ->where('user_id', $userID)
-//           ->orderByDesc('id')
-//           ->orderByDesc('created_at')
-//           ->paginate(10);
-//
-//       return UserEventResource::collection($eventsUser);
-        $user = $request->user();// Получаем текущего аутентифицированного пользователя
+        $user = $request->user();
 
-        $events = $user->createdEvents()->paginate(10); // Используйте связь createdEvents в модели User
+        $events = $user->createdEvents()->paginate(10); // связь createdEvents в модели User
 
         return UserEventResource::collection($events);
     }
