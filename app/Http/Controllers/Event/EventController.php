@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Event;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Event\StoreEventRequest;
+use App\Http\Requests\Event\UpdateEventRequest;
 use App\Http\Resources\Event\EventResource;
 use App\Http\Resources\Event\MiniEventResource;
 use App\Http\Resources\Event\UserEventResource;
@@ -12,9 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
       $events = Event::query()
@@ -25,36 +25,39 @@ class EventController extends Controller
       return MiniEventResource::collection($events);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+
+    public function store(StoreEventRequest $request)
     {
-        //
+        /**
+         * @var Event $event
+         */
+        $event = \auth()->user()->events()->create($request->validated());
+
+        return $this->show($event);
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Event $event)
     {
         return new EventResource($event);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Event $event)
+
+    public function update(UpdateEventRequest $request, Event $event)
     {
-        //
+        $event->update($request->validated());
+
+        return $this->show($event->fresh());
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(Event $event)
     {
-        //
+        $event->delete();
+
+        return response()->json([
+            'message' => 'event deleted successfully'
+        ]);
     }
 
     public function showUserEvents(Request $request)
