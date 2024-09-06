@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Event;
 
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\VerifyOwnershipMiddleware;
 use App\Http\Requests\Event\StoreEventRequest;
 use App\Http\Requests\Event\UpdateEventRequest;
 use App\Http\Resources\Event\EventResource;
@@ -14,6 +15,10 @@ use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
+    public function __construct()
+    {
+
+    }
 
     public function index()
     {
