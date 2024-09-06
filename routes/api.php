@@ -18,3 +18,5 @@ Route::controller(UserController::class)->prefix('users')->group(function () {
 });
 
 Route::apiResource('events',EventController::class)->middleware(['auth:sanctum']);
+
+Route::get('/users/events', [EventController::class, 'showUserEvents'])->middleware(['auth:sanctum']);

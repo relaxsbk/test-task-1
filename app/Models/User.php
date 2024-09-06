@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -53,8 +55,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(Session::class);
     }
-    public function events(): HasMany
+    public function createdEvents(): HasMany
     {
-        return $this->hasMany(Event::class);
+        return $this->hasMany(Event::class, 'user_id');
+    }
+
+    /**
+     * Get the events the user has joined.
+     */
+    public function joinedEvents(): BelongsToMany
+    {
+        return $this->belongsToMany(Event::class, 'event_user');
     }
 }
