@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\RegisterRequest;
+use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -50,5 +51,12 @@ class UserController extends Controller
         return response()->json([
             'message' => 'User logout'
         ]);
+    }
+
+    public function profile(Request $request)
+    {
+        $user = $request->user();
+
+        return new UserResource($user);
     }
 }
