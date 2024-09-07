@@ -20,11 +20,11 @@ return Application::configure(basePath: dirname(__DIR__))
          * Переопределение существующего Exceptions
          */
 
-        $exceptions->renderable(function (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e) {
-            return response()->json([
-                'message' => 'Route not found'
-            ], 404);
-        });
+//        $exceptions->renderable(function (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e) {
+//            return response()->json([
+//                'message' => 'Route not found'
+//            ], 404);
+//        });
         /**
          * определение кастомного Exceptions
          */

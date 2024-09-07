@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\Event\EventController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Middleware\CheckEventCreator;
+use App\Http\Middleware\CheckEventLeave;
+use App\Http\Middleware\CheckEventParticipation;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Middleware\VerifyOwnershipMiddleware;
 
@@ -19,6 +22,11 @@ Route::controller(EventController::class)->middleware(['auth:sanctum', VerifyOwn
     Route::patch('/events/{event}', 'update');
     Route::delete('/events/{event}', 'destroy');
 
+});
+
+Route::controller(EventController::class)->prefix('/events')->middleware(['auth:sanctum', CheckEventCreator::class])->group(function () {
+    Route::delete('/{event}/leave', 'leaveEvent')->name('leave.event')->middleware(CheckEventLeave::class);
+    Route::post('/{event}/join', 'joinEvent')->name('join.event')->middleware(CheckEventParticipation::class);
 });
 
 //Route::apiResource('events',EventController::class)->middleware(['auth:sanctum']);

@@ -73,4 +73,27 @@ class EventController extends Controller
 
         return UserEventResource::collection($events);
     }
+
+    public function joinEvent(Request $request, Event $event)
+    {
+        $user = $request->user();
+
+        $user->joinedEvents()->attach($event);
+
+        return response()->json([
+            'message' => "success joined"
+        ]);
+
+    }
+
+    public function leaveEvent(Request $request, Event $event)
+    {
+        $user = $request->user();
+
+        $user->joinedEvents()->detach($event);
+
+        return response()->json([
+            'message' => 'leave success event'
+        ]);
+    }
 }
